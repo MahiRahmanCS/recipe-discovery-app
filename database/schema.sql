@@ -35,3 +35,16 @@ CREATE TABLE IF NOT EXISTS savedRecipes (
   updatedAt   TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   UNIQUE (userId, mealId) -- one save per recipe per user
 );
+
+-- Speeds up listing a user's saves, newest first.
+CREATE INDEX IF NOT EXISTS idx_savedRecipes_user_created
+  ON savedRecipes (userId, createdAt, id);
+
+CREATE TRIGGER IF NOT EXISTS trg_savedRecipes_updatedAt
+AFTER UPDATE ON savedRecipes
+FOR EACH ROW WHEN NEW.updatedAt = OLD.updatedAt
+BEGIN
+  UPDATE savedRecipes
+  SET updatedAt = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
+  WHERE id = NEW.id;
+END;
