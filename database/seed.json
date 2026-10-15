@@ -1,0 +1,76 @@
+{
+  "demoPassword": "GrubHub123",
+  "users": [
+    {
+      "username": "sam_cooks",
+      "email": "sam@example.com",
+      "displayName": "Sam",
+      "bio": "Weeknight cook, pasta fan",
+      "savedRecipes": [
+        {
+          "mealId": "52772",
+          "title": "Teriyaki Chicken Casserole",
+          "thumbnail": "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg",
+          "category": "Chicken",
+          "area": "Japanese",
+          "status": "cooked",
+          "isFavourite": true,
+          "notes": "Halve the soy sauce next time",
+          "rating": 4
+        },
+        {
+          "mealId": "52771",
+          "title": "Spicy Arrabiata Penne",
+          "thumbnail": "https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg",
+          "category": "Vegetarian",
+          "area": "Italian",
+          "status": "want_to_cook",
+          "isFavourite": false,
+          "notes": "",
+          "rating": null
+        },
+        {
+          "mealId": "52959",
+          "title": "Baked salmon with fennel & tomatoes",
+          "thumbnail": "https://www.themealdb.com/images/media/meals/1548772327.jpg",
+          "category": "Seafood",
+          "area": "British",
+          "status": "cooked",
+          "isFavourite": false,
+          "notes": "Good with rice",
+          "rating": 3
+        }
+      ]
+    },
+    {
+      "username": "alex_bakes",
+      "email": "alex@example.com",
+      "displayName": "Alex",
+      "bio": "",
+      "savedRecipes": [
+        {
+          "mealId": "52874",
+          "title": "Beef and Mustard Pie",
+          "thumbnail": "https://www.themealdb.com/images/media/meals/sytuqu1511553755.jpg",
+          "category": "Beef",
+          "area": "British",
+          "status": "want_to_cook",
+          "isFavourite": true,
+          "notes": "",
+          "rating": null
+        },
+        {
+          "mealId": "52772",
+          "title": "Teriyaki Chicken Casserole",
+          "thumbnail": "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg",
+          "category": "Chicken",
+          "area": "Japanese",
+          "status": "want_to_cook",
+          "isFavourite": false,
+          "notes": "",
+          "rating": null
+        }
+      ]
+    }
+  ]
+}
