@@ -1,16 +1,16 @@
--- GrubHub database schema (SQLite)
---
--- Run this file against an empty database to create every table.
--- Dates are stored as ISO 8601 text in UTC, e.g. 2026-10-07T11:00:00.000Z
+-- GrubHub schema (SQLite). Dates are ISO 8601 UTC text.
 
--- Registered accounts.
--- The password is never stored, only its bcrypt hash.
 CREATE TABLE IF NOT EXISTS users (
   id           INTEGER PRIMARY KEY AUTOINCREMENT,
-  username     TEXT    NOT NULL,
-  email        TEXT    NOT NULL,
-  passwordHash TEXT    NOT NULL,
-  displayName  TEXT    NOT NULL DEFAULT '',
-  bio          TEXT    NOT NULL DEFAULT '',
+  username     TEXT    NOT NULL UNIQUE COLLATE NOCASE
+               CHECK (length(username) BETWEEN 3 AND 30
+                      AND username NOT GLOB '*[^A-Za-z0-9_]*'),
+  email        TEXT    NOT NULL UNIQUE
+               CHECK (length(email) BETWEEN 3 AND 254
+                      AND email = lower(email)
+                      AND email LIKE '%_@_%'),
+  passwordHash TEXT    NOT NULL CHECK (length(passwordHash) > 0), -- bcrypt hash only
+  displayName  TEXT    NOT NULL DEFAULT '' CHECK (length(displayName) <= 50),
+  bio          TEXT    NOT NULL DEFAULT '' CHECK (length(bio) <= 300),
   createdAt    TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
