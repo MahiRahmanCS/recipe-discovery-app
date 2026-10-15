@@ -10,6 +10,8 @@
   "scripts": {
     "db:init": "node scripts/initDb.js",
     "db:seed": "node scripts/seedDb.js",
+    "db:reset": "node scripts/resetDb.js && npm run db:init && npm run db:seed",
+    "db:dump": "node scripts/dumpDb.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
