@@ -1,0 +1,9 @@
+# Local SQLite database files.
+# The database is rebuilt from schema.sql and seed.sql, so the
+# binary file itself is never committed.
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
