@@ -14,3 +14,19 @@ CREATE TABLE IF NOT EXISTS users (
   bio          TEXT    NOT NULL DEFAULT '' CHECK (length(bio) <= 300),
   createdAt    TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+CREATE TABLE IF NOT EXISTS savedRecipes (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  userId      INTEGER NOT NULL REFERENCES users (id),
+  mealId      TEXT    NOT NULL, -- TheMealDB idMeal
+  title       TEXT    NOT NULL,
+  thumbnail   TEXT    NOT NULL DEFAULT '',
+  category    TEXT    NOT NULL DEFAULT '',
+  area        TEXT    NOT NULL DEFAULT '',
+  status      TEXT    NOT NULL DEFAULT 'want_to_cook',
+  isFavourite INTEGER NOT NULL DEFAULT 0,
+  notes       TEXT    NOT NULL DEFAULT '',
+  rating      INTEGER,
+  createdAt   TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updatedAt   TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
