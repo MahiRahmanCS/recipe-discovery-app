@@ -17,16 +17,21 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS savedRecipes (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,
-  userId      INTEGER NOT NULL REFERENCES users (id),
-  mealId      TEXT    NOT NULL, -- TheMealDB idMeal
-  title       TEXT    NOT NULL,
-  thumbnail   TEXT    NOT NULL DEFAULT '',
-  category    TEXT    NOT NULL DEFAULT '',
-  area        TEXT    NOT NULL DEFAULT '',
-  status      TEXT    NOT NULL DEFAULT 'want_to_cook',
-  isFavourite INTEGER NOT NULL DEFAULT 0,
-  notes       TEXT    NOT NULL DEFAULT '',
-  rating      INTEGER,
+  userId      INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+  mealId      TEXT    NOT NULL -- TheMealDB idMeal
+              CHECK (length(mealId) BETWEEN 1 AND 20
+                     AND mealId GLOB '[1-9]*'
+                     AND mealId NOT GLOB '*[^0-9]*'),
+  title       TEXT    NOT NULL CHECK (length(trim(title)) > 0 AND length(title) <= 200),
+  thumbnail   TEXT    NOT NULL DEFAULT ''
+              CHECK (length(thumbnail) <= 2048 AND (thumbnail = '' OR thumbnail LIKE 'https://%')),
+  category    TEXT    NOT NULL DEFAULT '' CHECK (length(category) <= 100),
+  area        TEXT    NOT NULL DEFAULT '' CHECK (length(area) <= 100),
+  status      TEXT    NOT NULL DEFAULT 'want_to_cook' CHECK (status IN ('want_to_cook', 'cooked')),
+  isFavourite INTEGER NOT NULL DEFAULT 0 CHECK (isFavourite IN (0, 1)),
+  notes       TEXT    NOT NULL DEFAULT '' CHECK (length(notes) <= 1000),
+  rating      INTEGER CHECK (rating IS NULL OR (typeof(rating) = 'integer' AND rating BETWEEN 1 AND 5)),
   createdAt   TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
-  updatedAt   TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+  updatedAt   TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  UNIQUE (userId, mealId) -- one save per recipe per user
 );
