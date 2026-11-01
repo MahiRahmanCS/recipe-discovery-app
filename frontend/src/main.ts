@@ -17,7 +17,8 @@ app.innerHTML = `
       <a class="brand" href="#top" aria-label="GrubHub home">
         <span class="brand-mark">${bowl}</span>Grub<span class="brand-accent">Hub</span><span class="brand-dot">.</span>
       </a>
-      <nav class="main-nav" aria-label="Main navigation">
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">Menu <span aria-hidden="true">▾</span></button>
+      <nav class="main-nav" id="main-navigation" aria-label="Main navigation">
         <a href="#recipes">Discover</a>
         <a href="#categories">Categories</a>
         <a href="#about">About</a>
@@ -99,6 +100,39 @@ const categoriesGrid = document.querySelector<HTMLDivElement>('#categories-grid'
 const categoriesStatus = document.querySelector<HTMLParagraphElement>('#categories-status')!
 const categoriesRetry = document.querySelector<HTMLButtonElement>('#retry-categories')!
 const categoriesToggle = document.querySelector<HTMLButtonElement>('#toggle-categories')!
+const menuToggle = document.querySelector<HTMLButtonElement>('#menu-toggle')!
+const mainNav = document.querySelector<HTMLElement>('#main-navigation')!
+const mobileNavigation = window.matchMedia('(max-width: 560px)')
+
+function setMenuOpen(open: boolean) {
+  menuToggle.setAttribute('aria-expanded', String(open))
+  mainNav.classList.toggle('is-open', open)
+}
+
+menuToggle.addEventListener('click', () => {
+  setMenuOpen(menuToggle.getAttribute('aria-expanded') !== 'true')
+})
+
+mainNav.addEventListener('click', (event) => {
+  if (mobileNavigation.matches && event.target instanceof Element && event.target.closest('a')) {
+    setMenuOpen(false)
+    menuToggle.focus({ preventScroll: true })
+  }
+})
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
+    setMenuOpen(false)
+    menuToggle.focus({ preventScroll: true })
+  }
+})
+
+mobileNavigation.addEventListener('change', () => {
+  const focusedElement = document.activeElement
+  setMenuOpen(false)
+  if (mobileNavigation.matches && mainNav.contains(focusedElement)) menuToggle.focus()
+  else if (!mobileNavigation.matches && focusedElement === menuToggle) mainNav.querySelector('a')?.focus()
+})
 
 type Selection = { kind: 'featured' } | { kind: 'search'; query: string } | { kind: 'category'; category: string }
 let currentSelection: Selection = { kind: 'featured' }
