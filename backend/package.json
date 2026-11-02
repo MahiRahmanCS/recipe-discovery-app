@@ -8,8 +8,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
     "db:init": "node scripts/initDb.js",
     "db:seed": "node scripts/seedDb.js",
     "db:reset": "node scripts/resetDb.js && npm run db:init && npm run db:seed",
